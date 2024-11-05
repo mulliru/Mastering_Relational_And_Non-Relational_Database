@@ -1,9 +1,42 @@
 /*
-Quest„o 5: Procedure para Listar Produtos em Estoque Acima de um Valor com Tratamento de Erros
-DescriÁ„o: Crie uma procedure chamada listar_produtos_em_estoque_minimo que exibe produtos com estoque acima de um valor mÌnimo. Se n„o houver produtos suficientes, lance uma exceÁ„o. Utilize um LOOP para iterar sobre os produtos e um IF para verificar a quantidade.
+Quest√£o 5: Procedimento para Listar Produtos em Estoque Acima de um Valor com Tratamento de Erros
+Descri√ß√£o: Crie uma procedure chamada `listar_produtos_em_estoque_minimo` que exibe produtos com estoque acima de um valor m√≠nimo especificado. Caso n√£o haja produtos com estoque suficiente, lance uma exce√ß√£o. Utilize um LOOP para iterar sobre os produtos e um IF para verificar se a quantidade em estoque atende ao valor m√≠nimo.
+
 Requisitos:
-ï	ExceÁ„o: Lance uma exceÁ„o se n„o houver produtos em estoque suficiente.
-ï	JOIN: Use LEFT JOIN entre produto e estoque_produto.
-ï	LOOP: Utilize um loop para iterar sobre os produtos.
-ï	IF: Verifique se a quantidade em estoque È superior ao valor mÌnimo.
+- Exce√ß√£o: Lance uma exce√ß√£o se n√£o houver produtos com estoque suficiente.
+- JOIN: Use LEFT JOIN entre as tabelas `produto` e `estoque_produto`.
+- LOOP: Utilize um loop para iterar sobre os produtos.
+- IF: Verifique se a quantidade em estoque √© superior ao valor m√≠nimo especificado.
+
+- Murillo
 */
+
+CREATE OR REPLACE PROCEDURE listar_produtos_em_estoque_minimo(p_minimo IN NUMBER) IS
+    -- Cursor para selecionar os produtos e estoques com LEFT JOIN
+    CURSOR cur_produtos IS
+        SELECT p.nome_produto, ep.quantidade_estoque
+        FROM produto p
+        LEFT JOIN estoque_produto ep ON p.cod_produto = ep.cod_produto;
+
+    -- Vari√°veis para armazenar os dados do cursor
+    v_nome_produto produto.nome_produto%TYPE;
+    v_quantidade_estoque estoque_produto.quantidade_estoque%TYPE;
+
+    -- Vari√°vel para controlar se algum produto foi encontrado
+    v_encontrou BOOLEAN := FALSE;
+BEGIN
+    -- Abrindo o loop com o cursor
+    FOR prod IN cur_produtos LOOP
+        -- Verifica√ß√£o do estoque m√≠nimo
+        IF prod.quantidade_estoque > p_minimo THEN
+            DBMS_OUTPUT.PUT_LINE('Produto: ' || prod.nome_produto || ' | Quantidade em Estoque: ' || prod.quantidade_estoque);
+            v_encontrou := TRUE;
+        END IF;
+    END LOOP;
+
+    -- Lan√ßamento de exce√ß√£o se nenhum produto atender ao valor m√≠nimo
+    IF NOT v_encontrou THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Nenhum produto com estoque acima do valor m√≠nimo especificado.');
+    END IF;
+END listar_produtos_em_estoque_minimo;
+/

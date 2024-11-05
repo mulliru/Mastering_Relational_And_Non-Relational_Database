@@ -1,9 +1,48 @@
 /*
-Quest„o 7: Procedure para Atualizar Estoque de Produtos com ExceÁıes
-DescriÁ„o: Crie uma procedure chamada atualizar_estoque_produto que recebe o cÛdigo de um produto e a quantidade a ser adicionada. Caso a quantidade final seja negativa, ajuste para zero e lance uma exceÁ„o. Utilize um LOOP para simular a atualizaÁ„o e um IF para verificar o estoque final.
+Quest√£o 7: Procedimento para Atualizar Estoque de Produtos com Exce√ß√µes
+Descri√ß√£o: Crie uma procedure chamada `atualizar_estoque_produto` que recebe o c√≥digo de um produto e a quantidade a ser adicionada ao estoque. Caso o estoque final seja negativo, ajuste-o para zero e lance uma exce√ß√£o. Utilize um LOOP para simular a atualiza√ß√£o e um IF para verificar se o estoque final √© negativo.
+
 Requisitos:
-ï	ExceÁ„o: Lance uma exceÁ„o se o estoque final for negativo.
-ï	JOIN: Use INNER JOIN entre produto e estoque_produto.
-ï	LOOP: Simule a atualizaÁ„o repetida para cada unidade.
-ï	IF: Verifique se o estoque final È negativo.
+- Exce√ß√£o: Lance uma exce√ß√£o se o estoque final for negativo.
+- JOIN: Use INNER JOIN entre as tabelas `produto` e `estoque_produto`.
+- LOOP: Simule a atualiza√ß√£o repetida para cada unidade adicionada.
+- IF: Verifique se o estoque final √© negativo e ajuste, se necess√°rio.
+
+- Murillo
 */
+
+CREATE OR REPLACE PROCEDURE atualizar_estoque_produto(p_cod_produto IN NUMBER, p_quantidade IN NUMBER) IS
+    -- Vari√°veis para armazenar o estoque atual e o estoque final simulado
+    v_estoque_atual NUMBER;
+    v_estoque_final NUMBER;
+BEGIN
+    -- Recupera o estoque atual do produto com INNER JOIN
+    SELECT ep.qtd_produto
+    INTO v_estoque_atual
+    FROM produto p
+    INNER JOIN estoque_produto ep ON p.cod_produto = ep.cod_produto
+    WHERE p.cod_produto = p_cod_produto;
+
+    -- Inicializa o estoque final com o estoque atual
+    v_estoque_final := v_estoque_atual;
+
+    -- Loop para simular a adi√ß√£o de cada unidade ao estoque
+    FOR i IN 1..p_quantidade LOOP
+        v_estoque_final := v_estoque_final + 1;
+
+        -- Verifica se o estoque final √© negativo (apenas um ajuste simulado)
+        IF v_estoque_final < 0 THEN
+            v_estoque_final := 0;
+            RAISE_APPLICATION_ERROR(-20003, 'Estoque final negativo. Ajustado para zero.');
+        END IF;
+    END LOOP;
+
+    -- Atualiza o estoque no banco de dados
+    UPDATE estoque_produto
+    SET qtd_produto = v_estoque_final
+    WHERE cod_produto = p_cod_produto;
+
+    COMMIT;
+END atualizar_estoque_produto;
+/
+

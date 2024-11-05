@@ -1,9 +1,9 @@
 /*
-Questão 8: Função para Calcular Quantidade Média de Itens por Pedido 
-Descrição: Desenvolva uma função chamada media_itens_por_pedido que calcula a média de itens nos pedidos de um cliente. Lance uma exceção caso o cliente não tenha pedidos. Use um WHILE para contar os itens e uma variável para armazenar a soma das quantidades.
+Questï¿½o 8: Funï¿½ï¿½o para Calcular Quantidade Mï¿½dia de Itens por Pedido 
+Descriï¿½ï¿½o: Desenvolva uma funï¿½ï¿½o chamada media_itens_por_pedido que calcula a mï¿½dia de itens nos pedidos de um cliente. Lance uma exceï¿½ï¿½o caso o cliente nï¿½o tenha pedidos. Use um WHILE para contar os itens e uma variï¿½vel para armazenar a soma das quantidades.
 Requisitos:
-•	Exceção: Lance uma exceção se o cliente não tiver pedidos.
-•	JOIN: Use INNER JOIN entre cliente e pedido.
-•	WHILE: Utilize um laço WHILE para contar os itens.
-•	Variável: Armazene a soma das quantidades.
+ï¿½	Exceï¿½ï¿½o: Lance uma exceï¿½ï¿½o se o cliente nï¿½o tiver pedidos.
+ï¿½	JOIN: Use INNER JOIN entre cliente e pedido.
+ï¿½	WHILE: Utilize um laï¿½o WHILE para contar os itens.
+ï¿½	Variï¿½vel: Armazene a soma das quantidades.
 */

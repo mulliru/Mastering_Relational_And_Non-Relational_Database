@@ -1,9 +1,44 @@
 /*
-Quest„o 6: FunÁ„o para Calcular MÈdia de Desconto por Pedido com ExceÁıes
-DescriÁ„o: Desenvolva uma funÁ„o chamada media_desconto_pedido que calcula a mÈdia dos descontos aplicados aos pedidos de um cliente. Lance uma exceÁ„o caso o cliente n„o tenha descontos aplicados. Utilize um cursor para iterar sobre os pedidos e uma vari·vel para armazenar a soma dos descontos.
+Quest√£o 6: Fun√ß√£o para Calcular M√©dia de Desconto por Pedido com Exce√ß√µes
+Descri√ß√£o: Desenvolva uma fun√ß√£o chamada `media_desconto_pedido` que calcula a m√©dia dos descontos aplicados aos pedidos de um cliente. Lance uma exce√ß√£o caso o cliente n√£o tenha descontos aplicados. Utilize um cursor para iterar sobre os pedidos e uma vari√°vel para armazenar a soma dos descontos.
+
 Requisitos:
-ï	ExceÁ„o: Lance uma exceÁ„o se o cliente n„o tiver descontos.
-ï	JOIN: Use INNER JOIN entre pedido e historico_pedido.
-ï	Cursor: Utilize um cursor para iterar sobre os descontos.
-ï	Vari·vel: Armazene a soma dos descontos.
+- Exce√ß√£o: Lance uma exce√ß√£o se o cliente n√£o tiver descontos.
+- JOIN: Use INNER JOIN entre as tabelas `pedido` e `historico_pedido`.
+- Cursor: Utilize um cursor para iterar sobre os descontos.
+- Vari√°vel: Armazene a soma dos descontos em uma vari√°vel.
+
+- Murillo
 */
+
+CREATE OR REPLACE FUNCTION media_desconto_pedido(p_cod_cliente IN NUMBER) RETURN NUMBER IS
+    -- Cursor para selecionar os descontos dos pedidos do cliente
+    CURSOR cur_descontos IS
+        SELECT hp.val_desconto
+        FROM pedido p
+        INNER JOIN historico_pedido hp ON p.cod_pedido = hp.cod_pedido
+        WHERE p.cod_cliente = p_cod_cliente;
+
+    -- Vari√°veis para armazenar a soma dos descontos e a contagem de pedidos
+    v_soma_desconto NUMBER := 0;
+    v_contagem_pedidos NUMBER := 0;
+    v_media_desconto NUMBER;
+
+BEGIN
+    -- Iterando sobre os descontos com o cursor
+    FOR reg_desconto IN cur_descontos LOOP
+        v_soma_desconto := v_soma_desconto + reg_desconto.val_desconto;
+        v_contagem_pedidos := v_contagem_pedidos + 1;
+    END LOOP;
+
+    -- Verifica√ß√£o para lan√ßar exce√ß√£o caso n√£o haja descontos
+    IF v_contagem_pedidos = 0 THEN
+        RAISE_APPLICATION_ERROR(-20002, 'O cliente n√£o possui descontos aplicados em pedidos.');
+    ELSE
+        -- C√°lculo da m√©dia de desconto
+        v_media_desconto := v_soma_desconto / v_contagem_pedidos;
+    END IF;
+
+    RETURN v_media_desconto;
+END media_desconto_pedido;
+/

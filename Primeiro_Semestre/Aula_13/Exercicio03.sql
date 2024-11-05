@@ -1,10 +1,12 @@
 /*
-Questão 3: Procedure para Atualizar Preço de Produtos para um Estado com Controle de Erros
-Descrição: Crie uma procedure chamada atualizar_preco_estado que aumenta o preço dos produtos comprados por clientes de um estado específico. Se o estado não tiver clientes, lance uma exceção. Utilize um WHILE para iterar sobre os produtos e um IF para verificar se o produto está ativo.
+Questï¿½o 3: Procedure para Atualizar Preï¿½o de Produtos para um Estado com Controle de Erros
+Descriï¿½ï¿½o: Crie uma procedure chamada atualizar_preco_estado que aumenta o preï¿½o dos produtos comprados por clientes de um estado especï¿½fico. Se o estado nï¿½o tiver clientes, lance uma exceï¿½ï¿½o. Utilize um WHILE para iterar sobre os produtos e um IF para verificar se o produto estï¿½ ativo.
 Requisitos:
-•	Exceção: Lance uma exceção caso o estado não tenha clientes.
-•	JOIN: Use INNER JOIN entre cliente e produto.
-•	WHILE: Utilize WHILE para iterar sobre os produtos.
-•	IF: Verifique se o produto está ativo antes de aplicar o ajuste.
+ï¿½	Exceï¿½ï¿½o: Lance uma exceï¿½ï¿½o caso o estado nï¿½o tenha clientes.
+ï¿½	JOIN: Use INNER JOIN entre cliente e produto.
+ï¿½	WHILE: Utilize WHILE para iterar sobre os produtos.
+ï¿½	IF: Verifique se o produto estï¿½ ativo antes de aplicar o ajuste.
+
+- Lari
 */
 

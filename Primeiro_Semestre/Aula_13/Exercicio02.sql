@@ -1,9 +1,11 @@
 /*
-Questão 2: Função para Calcular Total em Estoque de Produtos Ativos 
-Descrição: Desenvolva uma função chamada calcular_estoque_total que retorna o estoque total dos produtos ativos. Lance uma exceção se não houver produtos ativos. Use variáveis para somar o estoque e um LOOP para iterar pelos produtos ativos.
+Questï¿½o 2: Funï¿½ï¿½o para Calcular Total em Estoque de Produtos Ativos 
+Descriï¿½ï¿½o: Desenvolva uma funï¿½ï¿½o chamada calcular_estoque_total que retorna o estoque total dos produtos ativos. Lance uma exceï¿½ï¿½o se nï¿½o houver produtos ativos. Use variï¿½veis para somar o estoque e um LOOP para iterar pelos produtos ativos.
 Requisitos:
-•	Exceção: Lance uma exceção se não houver produtos ativos.
-•	JOIN: Utilize LEFT JOIN entre produto e estoque_produto.
-•	LOOP: Itere pelos produtos ativos.
-•	Variável: Armazene o total de estoque.
+ï¿½	Exceï¿½ï¿½o: Lance uma exceï¿½ï¿½o se nï¿½o houver produtos ativos.
+ï¿½	JOIN: Utilize LEFT JOIN entre produto e estoque_produto.
+ï¿½	LOOP: Itere pelos produtos ativos.
+ï¿½	Variï¿½vel: Armazene o total de estoque.
+
+- Lari
 */
