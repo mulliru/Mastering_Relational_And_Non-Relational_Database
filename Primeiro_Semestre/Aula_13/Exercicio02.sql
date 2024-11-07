@@ -9,3 +9,30 @@ Requisitos:
 
 - Lari
 */
+CREATE OR REPLACE FUNCTION calcular_estoque_total
+RETURN NUMBER IS
+    total_estoque NUMBER := 0;
+    produtos_ativos EXCEPTION;
+BEGIN
+    FOR produto IN (
+        SELECT p.id, e.quantidade
+        FROM produto p
+        LEFT JOIN estoque_produto e ON p.id = e.produto_id
+        WHERE p.ativo = "Ativo"
+    ) LOOP
+        IF produto.quantidade IS NOT NULL THEN
+            total_estoque := total_estoque + produto.quantidade;
+        END IF;
+    END LOOP;
+
+    IF total_estoque = 0 THEN
+        RAISE produtos_ativos;
+    END IF;
+
+    RETURN total_estoque;
+
+EXCEPTION
+    WHEN produtos_ativos THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Não há produtos ativos em estoque');
+END calcular_estoque_total;
+

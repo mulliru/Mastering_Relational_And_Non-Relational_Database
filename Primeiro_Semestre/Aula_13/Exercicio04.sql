@@ -9,3 +9,42 @@ Requisitos:
 
 - Lari
 */
+
+CREATE OR REPLACE FUNCTION contar_pedidos_cancelados (
+    p_cod_cliente IN NUMBER
+) RETURN NUMBER IS
+    -- Variável para armazenar a contagem dos pedidos cancelados
+    v_contagem INTEGER := 0;
+    
+    -- Variável para armazenar o status do pedido
+    v_status VARCHAR2(20);
+    
+BEGIN
+    -- Consulta para iterar pelos pedidos do cliente
+    FOR r IN (
+        SELECT p.status
+        FROM pedido p
+        INNER JOIN cliente c ON c.id_cliente = p.id_cliente
+        WHERE c.id_cliente = p_cod_cliente
+    ) LOOP
+        -- Verifica se o status do pedido é 'cancelado'
+        IF r.status = 'cancelado' THEN
+            v_contagem := v_contagem + 1;
+        END IF;
+    END LOOP;
+    
+    -- Se não houver pedidos cancelados, lança exceção
+    IF v_contagem = 0 THEN
+        RAISE_APPLICATION_ERROR(-20001, 'O cliente não possui pedidos cancelados.');
+    END IF;
+
+    -- Retorna o número de pedidos cancelados
+    RETURN v_contagem;
+
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Caso ocorra algum erro, lança uma exceção geral
+        ROLLBACK;
+        RAISE_APPLICATION_ERROR(-20002, 'Erro ao contar pedidos cancelados: ' || SQLERRM);
+END contar_pedidos_cancelados;
+/
